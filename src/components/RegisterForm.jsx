@@ -23,7 +23,7 @@ const register = () => {
 
   return (
     <>
-      <Text>RegisterForm</Text>
+      
        <TextInput
        style={styles.input}
        placeholder='Correo electrónico'
@@ -33,6 +33,7 @@ const register = () => {
        <TextInput
        style={styles.input}
        textContentType='password'
+       placeholder='Contraseña'
        placeholderTextColor='#969696'
        secureTextEntry
        onChange={e=>setFormData({...formData, password:e.nativeEvent.text})}
@@ -40,13 +41,15 @@ const register = () => {
        <TextInput
        style={styles.input}
        textContentType='repetir password'
+       placeholder='Repetir Contraseña'
        placeholderTextColor='#969696'
        secureTextEntry
        onChange={e=>setFormData({...formData, repeatPassword:e.nativeEvent.text})}
        />
 
         <View style={styles.register} >
-          <TouchableOpacity onPress={changeForm}>
+          <TouchableOpacity onPress={register}>
+            
               <Text style={styles.btnText}>
               Registrate
               </Text>
@@ -54,7 +57,11 @@ const register = () => {
         </View>
       
 
-      <Button title='Iniciar sesión' onPress={register}/>
+      <Button 
+      title='Iniciar sesión' 
+      onPress={changeForm}
+      
+      />
     </>
   )
 }
@@ -64,22 +71,23 @@ const styles = StyleSheet.create({
         color:'black',
         fontSize:20,
         marginBottom:10,
-        backgroundColor:'aqua',
-        borderRadius:25,
-        textAlign:'center'
+        
     },
     input:{
         height:50,
         color:'white',
-        width:150,
+        width:'85%',
         backgroundColor:'#1e3040',
         fontSize:18,
+        marginBottom:20,
         borderWidth:1,
-        borderRadius:15,
+        borderRadius:30,
         paddingHorizontal:20
     },
     register:{
       flex:1,
-
+      justifyContent:'flex-end',
+      marginBottom:10,
+      
     }
 })
