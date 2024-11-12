@@ -10,7 +10,7 @@ export default function RegisterForm({changeForm}) {
   const [formData, setFormData] = useState({
     email:'',
     password:'',
-    repeatPassword:''
+    
   })
 
   const [formErrors, setFormErrors] = useState({})
@@ -28,10 +28,6 @@ const register = () => {
     
   }else if(!validateEmail(formData.email)){
     errors.email = true
-  }else if(formData.password.length <6 ){
-    errors.password = true
-    
-
   }else{
 
     const auth = getAuth(app);
