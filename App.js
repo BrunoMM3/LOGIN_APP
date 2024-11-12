@@ -1,7 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import { useEffect, useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { StyleSheet,Button, Text, View } from 'react-native';
+import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 import app from './src/utils/firebase'
 import Auth from './src/components/Auth';
 
@@ -33,14 +33,37 @@ export default function App() {
 
   if (user == undefined)  return null
   
+  
 
   return (
     <View style={styles.container}>
       <StatusBar style="auto" />
-      {user ? <Text>Estas logueado</Text> : <Auth/>}
+      {user ? <Logout/> : <Auth/>}
 
     </View>
   );
+}
+
+function Logout() {
+
+  function logOut(){
+    const auth = getAuth(app);
+    signOut(auth).then(() => {
+      console.log('Cerró sesión')
+    }).catch((error) => {
+      // An error happened.
+    }); 
+  }
+
+  return (
+    <View>
+      <Text>Estas Logueado</Text>
+      <Button 
+      title = 'Cerrar sesión'
+      onPress={logOut}
+      />
+    </View>
+  )
 }
 
 const styles = StyleSheet.create({

@@ -1,5 +1,9 @@
 import { Button, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import React, { useState } from 'react'
+import { validateEmail } from '../utils/validations'
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import app from '../../src/utils/firebase';
+
 
 export default function RegisterForm({changeForm}) {
 
@@ -9,13 +13,46 @@ export default function RegisterForm({changeForm}) {
     repeatPassword:''
   })
 
-const register = () => {
+  const [formErrors, setFormErrors] = useState({})
 
+const register = () => {
+  let errors ={}
   if (!formData.email || !formData.password || !formData.repeatPassword) {
-    console.log('Algun campo esta vacio')
+
+    if(!formData.email) errors.email = true
+    if(!formData.password) errors.password = true
+    if(!formData.repeatPassword) errors.repeatPassword = true
+
+    setFormErrors(errors)
     
+    
+  }else if(!validateEmail(formData.email)){
+    errors.email = true
+  }else if(formData.password !== formData.repeatPassword){
+    errors.password = true
+    errors.repeatPassword = true
+  }else if(formData.password.length <6 || formData.repeatPassword.length<6){
+    errors.password = true
+    errors.repeatPassword = true
+
   }else{
-    console.log(formData)
+
+    const auth = getAuth(app);
+    createUserWithEmailAndPassword(auth, formData.email, formData.password)
+  .then((userCredential) => {
+    // Signed up 
+    const user = userCredential.user;
+    console.log(user)
+    // ...
+  })
+  .catch((error) => {
+    const errorCode = error.code;
+    const errorMessage = error.message;
+    console.log(error.message)
+    // ..
+  });
+  
+  
   }
   
   
@@ -25,13 +62,13 @@ const register = () => {
     <>
       
        <TextInput
-       style={styles.input}
+       style={[styles.input,formErrors.email && styles.error]}
        placeholder='Correo electrónico'
        placeholderTextColor='#969696'
        onChange={e=>setFormData({...formData, email:e.nativeEvent.text})}
        />
        <TextInput
-       style={styles.input}
+       style={[styles.input,formErrors.password && styles.error]}
        textContentType='password'
        placeholder='Contraseña'
        placeholderTextColor='#969696'
@@ -39,7 +76,7 @@ const register = () => {
        onChange={e=>setFormData({...formData, password:e.nativeEvent.text})}
        />
        <TextInput
-       style={styles.input}
+       style={[styles.input,formErrors.repeatPassword && styles.error]}
        textContentType='repetir password'
        placeholder='Repetir Contraseña'
        placeholderTextColor='#969696'
@@ -89,5 +126,11 @@ const styles = StyleSheet.create({
       justifyContent:'flex-end',
       marginBottom:10,
       
-    }
+    },
+    error:{
+      borderColor:'#f00',
+      borderWidth:4,
+      
+
+    },
 })
