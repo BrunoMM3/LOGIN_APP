@@ -4,6 +4,7 @@ import { StyleSheet,Button, Text, View } from 'react-native';
 import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 import app from './src/utils/firebase'
 import Auth from './src/components/Auth';
+import Corizador from './src/cotizador/Corizador';
 
 export default function App() {
 
@@ -33,19 +34,6 @@ export default function App() {
 
   if (user == undefined)  return null
   
-  
-
-  return (
-    <View style={styles.container}>
-      <StatusBar style="auto" />
-      {user ? <Logout/> : <Auth/>}
-
-    </View>
-  );
-}
-
-function Logout() {
-
   function logOut(){
     const auth = getAuth(app);
     signOut(auth).then(() => {
@@ -54,23 +42,24 @@ function Logout() {
       // An error happened.
     }); 
   }
+  
 
   return (
-    <View>
-      <Text>Estas Logueado</Text>
-      <Button 
-      title = 'Cerrar sesión'
-      onPress={logOut}
-      />
+    <View style={styles.container}>
+      <StatusBar style="auto" />
+      {user ? <Corizador logOut={logOut} /> : <Auth/>}
+
     </View>
-  )
+  );
 }
+
+
 
 const styles = StyleSheet.create({
   container: {
     
     height:'100%',
-    backgroundColor: '#fff',
+    backgroundColor: '#1d1d42',
     
   },
 });
