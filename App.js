@@ -1,10 +1,11 @@
 import { StatusBar } from 'expo-status-bar';
 import { useEffect, useState } from 'react';
 import { StyleSheet,Button, Text, View } from 'react-native';
-import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
-import app from './src/utils/firebase'
+import { getAuth, onAuthStateChanged /*, signOut*/ } from "firebase/auth";
+//import app from './src/utils/firebase'
 import Auth from './src/components/Auth';
-import Corizador from './src/cotizador/Corizador';
+/*import Corizador from './src/cotizador/Corizador';*/
+import ListBirthday from './src/components/ListBirthday';
 
 export default function App() {
 
@@ -34,20 +35,23 @@ export default function App() {
 
   if (user == undefined)  return null
   
-  function logOut(){
+  /*function logOut(){
     const auth = getAuth(app);
     signOut(auth).then(() => {
       console.log('Cerró sesión')
     }).catch((error) => {
       // An error happened.
     }); 
-  }
+  }*/
   
 
   return (
     <View style={styles.container}>
       <StatusBar style="auto" />
-      {user ? <Corizador logOut={logOut} /> : <Auth/>}
+      {user ? 
+      //<Corizador logOut={logOut} /> 
+      <ListBirthday />
+      : <Auth/>}
 
     </View>
   );
