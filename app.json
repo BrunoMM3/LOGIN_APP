@@ -6,6 +6,14 @@
     "orientation": "portrait",
     "icon": "./assets/dinero.png",
     "userInterfaceStyle": "light",
+    "newArchEnabled": true,
+    "doctor": {
+      "reactNativeDirectoryCheck": {
+        "exclude": [
+          "react-redux"
+        ]
+      }
+    },
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
@@ -18,7 +26,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/dinero.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.brunomm3.loginrnapp"
     },
     "web": {
       "favicon": "./assets/dinero.png"
